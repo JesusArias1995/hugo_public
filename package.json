@@ -1,0 +1,11 @@
+{
+ "git": {
+  "scripts": {
+    "post-commit": "npm run deploy",
+    "pre-push": "npm run deploy"
+  }
+},
+"scripts": {
+  "deploy": "surge --project . --domain arias.surge.sh"
+}
+}
