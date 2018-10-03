@@ -73,14 +73,14 @@ Si por algún motivo ya no queremos usar el dominio ponemos la siguiente instruc
     </item>
     
     <item>
-      <title>Instalación y configuracion de hugo</title>
+      <title>Instalación y configuración de hugo</title>
       <link>/2018/instalacion</link>
       <pubDate>Wed, 26 Sep 2018 17:06:21 +0000</pubDate>
       
       <guid>/2018/instalacion</guid>
       <description>
 
-&lt;p&gt;Hugo es un generador de páginas web estaticas, está escrito en lenguaje de programación &lt;strong&gt;Go&lt;/strong&gt;, licencia APL 2.0, con un generador de plantillas &lt;strong&gt;Go Templates&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Hugo es un generador de páginas web estáticas, está escrito en lenguaje de programación &lt;strong&gt;Go&lt;/strong&gt;, licencia APL 2.0, con un generador de plantillas &lt;strong&gt;Go Templates&lt;/strong&gt;.&lt;/p&gt;
 
 &lt;h3 id=&#34;instalación&#34;&gt;Instalación&lt;/h3&gt;
 
