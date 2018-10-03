@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Implantacion aplicaciones web</title>
+    <link>/post/index.xml</link>
+    <description>Recent content in Posts on Implantacion aplicaciones web</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Oct 2018 16:51:30 +0000</lastBuildDate>
+    <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Servicio de despliegue de paginas estáticas Surge</title>
+      <link>/2018/surge</link>
+      <pubDate>Mon, 01 Oct 2018 16:51:30 +0000</pubDate>
+      
+      <guid>/2018/surge</guid>
+      <description>
+
+&lt;h1 id=&#34;instalación-surge&#34;&gt;Instalación surge&lt;/h1&gt;
+
+&lt;p&gt;Lo primero que haremos será instalar &lt;a href=&#34;https://nodejs.org/en/&#34;&gt;Node.js&lt;/a&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ sudo apt install nodejs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ahora instalaremos surge con npm (si no lo tenemos lo instalamos):&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ sudo apt install npm
+$ sudo npm install --global surge
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;ejecución&#34;&gt;Ejecución&lt;/h1&gt;
+
+&lt;p&gt;Ahora ejecutaremos surge desde el directorio donde tenemos nuestra pagina, en mi caso será la siguiente:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;vagrant@estatica:~/hugo/p2/public$ ls
+2018  404.html  css  img  index.html  index.xml  page  post  sitemap.xml
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ejecutamos surge:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;vagrant@estatica:~/hugo/p2/public$ surge
+Running as correo@hotmail.com (Student)
+
+            project: /home/vagrant/hugo/p2/public/
+         domain: arias.surge.sh
+         upload: [====================] 100% eta: 0.0s (10 files, 486476 bytes)
+            CDN: [====================] 100%
+             IP: 45.55.110.124
+
+   Success! - Published to arias.surge.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Con esto ya tendriamos nuestra pagina alojada en &lt;a href=&#34;http://arias.surge.sh&#34;&gt;arias.surge.sh&lt;/a&gt;.
+Si por algún motivo ya no queremos usar el dominio ponemos la siguiente instrucción:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;surge teardown arias.surge.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;otros-servicios&#34;&gt;Otros servicios&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Netlify&lt;/li&gt;
+&lt;li&gt;GitHub Pages&lt;/li&gt;
+&lt;li&gt;GitLab Pages&lt;/li&gt;
+&lt;li&gt;Neocities&lt;/li&gt;
+&lt;li&gt;Webflow&lt;/li&gt;
+&lt;li&gt;Divshot&lt;/li&gt;
+&lt;li&gt;Forge&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Instalación y configuracion de hugo</title>
+      <link>/2018/instalacion</link>
+      <pubDate>Wed, 26 Sep 2018 17:06:21 +0000</pubDate>
+      
+      <guid>/2018/instalacion</guid>
+      <description>
+
+&lt;p&gt;Hugo es un generador de páginas web estaticas, está escrito en lenguaje de programación &lt;strong&gt;Go&lt;/strong&gt;, licencia APL 2.0, con un generador de plantillas &lt;strong&gt;Go Templates&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;h3 id=&#34;instalación&#34;&gt;Instalación&lt;/h3&gt;
+
+&lt;p&gt;Para instalar hugo ejecutamos la siguiente instrucción:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ sudo apt-get install hugo
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;creación-sitio-web&#34;&gt;Creación sitio web&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ mkdir sitioweb
+$ hugo new site sitioweb
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;El ultimo comando nos creara toda la estructura del sitio web, dentro de la carpeta sitioweb.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ ls
+archetypes  config.toml  content  data  layouts  static  themes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;creación-primer-post&#34;&gt;Creación primer post&lt;/h3&gt;
+
+&lt;p&gt;Agregamos un post para ver el sitio web que acabamos de crear, ejecutamos lo siguiente:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ hugo new post/instalacion.md
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ahora editamos el fichero /content/post/instalacion.md, por defecto viene el siguiente contenido:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;+++
+title = &amp;quot;instalacion&amp;quot;
+draft = true
+date = &amp;quot;2018-09-26T17:06:21Z&amp;quot;
+
++++
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;El contenido dentro +++ es la configuración TOML.
+Agregamos texto despues de +++ en formato Markdown, &lt;a href=&#34;https://dillinger.io/&#34;&gt;Online Markdown Editor&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;+++
+title = &amp;quot;instalacion&amp;quot;
+draft = true
+date = &amp;quot;2018-09-26T17:06:21Z&amp;quot;
+
++++
+
+### Instalación
+Para instalar hugo ejecutamos la siguiente instrucción:
+```sh
+$ sudo apt-get install hugo
+```
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;agregar-un-tema&#34;&gt;Agregar un tema&lt;/h3&gt;
+
+&lt;p&gt;Hugo tiene una muy robusta y versátil librería de temas pues usa la librería html/template de Go.
+Puedes descargar una plantilla pinchando &lt;a href=&#34;https://themes.gohugo.io/&#34;&gt;aqui.&lt;/a&gt;
+Para agregar un tema ejecutamos lo siguiente en nuestro directorio themes:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ git clone https://github.com/Tazeg/hugo-blog-jeffprod.git themes/jeffprod
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;fichero-config-toml&#34;&gt;Fichero config.toml&lt;/h3&gt;
+
+&lt;p&gt;En este fichero esta la configuración principal, podemos definir el título de todos los sitios web, idioma, urls, etc.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;title = &amp;quot;Implantacion aplicaciones web&amp;quot;
+baseurl = &amp;quot;&amp;quot;
+languageCode = &amp;quot;en-us&amp;quot;
+theme = &amp;quot;jeffprod&amp;quot;
+[permalinks]
+    post = &amp;quot;/:year/:filename&amp;quot;
+
+[taxonomies]
+    tag = &amp;quot;tags&amp;quot;
+    archive = &amp;quot;archives&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;desplegar-hugo&#34;&gt;Desplegar hugo&lt;/h3&gt;
+
+&lt;p&gt;Para ejecutarlo en modo desarrollo ejecutamos lo siguiente:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ hugo server -D
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Accedemos a &lt;a href=&#34;http://localhost:1313&#34;&gt;http://localhost:1313&lt;/a&gt;
+Si tenemos hugo en una maquina virtual y no podemos ver nuestra pagina le decimos con el siguiente comando que escuche en la 0.0.0.0&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ hugo server -D --bind=0.0.0.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Para llevarlo a producción y tener el árbol de ficheros ejecutamos lo siguiente:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ hugo -D
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Vemos como nos crea una carpeta public.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;$ ls
+archetypes  config.toml  content  data  layouts  *public*  static  themes
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Ejecutamos el siguiente comando para comprobar que nuestra pagina esta funcionando:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;hugo server -D --bind=0.0.0.0 -b http://172.22.0.108
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/comp1.png&#34; alt=&#34;Sin titulo&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;otros-generadores&#34;&gt;Otros generadores&lt;/h3&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Generadores&lt;/th&gt;
+&lt;th&gt;Licencia&lt;/th&gt;
+&lt;th&gt;Idioma&lt;/th&gt;
+&lt;th&gt;Generador de plantillas&lt;/th&gt;
+&lt;th&gt;Página web&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Jekyll&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;MIT&lt;/td&gt;
+&lt;td&gt;Ruby&lt;/td&gt;
+&lt;td&gt;Liquid&lt;/td&gt;
+&lt;td&gt;jekyllrb.com&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Pelican&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;AGPL&lt;/td&gt;
+&lt;td&gt;Python&lt;/td&gt;
+&lt;td&gt;Jinja2&lt;/td&gt;
+&lt;td&gt;blog.getpelican.com&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Middleman&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;MIT&lt;/td&gt;
+&lt;td&gt;Ruby&lt;/td&gt;
+&lt;td&gt;ERB/Tilt&lt;/td&gt;
+&lt;td&gt;middlemanapp.com&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Expose&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;MIT&lt;/td&gt;
+&lt;td&gt;Bash&lt;/td&gt;
+&lt;td&gt;custom&lt;/td&gt;
+&lt;td&gt;github.com/Jack000/Expose&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Cactus&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;BSD&lt;/td&gt;
+&lt;td&gt;Python&lt;/td&gt;
+&lt;td&gt;Django&lt;/td&gt;
+&lt;td&gt;github.com/eudicots/Cactus&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Lektor&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;BSD&lt;/td&gt;
+&lt;td&gt;Python&lt;/td&gt;
+&lt;td&gt;Jinja2&lt;/td&gt;
+&lt;td&gt;getlektor.com&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Octopress&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;MIT&lt;/td&gt;
+&lt;td&gt;Ruby&lt;/td&gt;
+&lt;td&gt;Liquid&lt;/td&gt;
+&lt;td&gt;octopress.org&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Hyde&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;MIT&lt;/td&gt;
+&lt;td&gt;Python&lt;/td&gt;
+&lt;td&gt;Jinja2&lt;/td&gt;
+&lt;td&gt;hyde.github.io&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

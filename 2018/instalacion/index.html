@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Implantacion aplicaciones web  | Instalación y configuracion de hugo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" />
+    <link rel="stylesheet" href="/css/blog.css" />
+</head>
+<body>
+
+    
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">Inicio</a>
+        </div>
+    </nav>
+    
+
+    
+    <section class="hero is-info is-medium">
+        <div class="hero-body" style="background-image: url(/img/bg-blog.jpg);">
+            <div class="container has-text-centered">
+                <br>
+                <h1 class="title is-size-1">
+                    
+                        Instalación y configuracion de hugo
+                    
+                </h1>
+                
+            </div>
+        </div>
+    </section>
+
+
+<div class="container">
+    <div class="section">
+    
+
+<div class="columns">
+    <div class="column is-9">
+        <div class="tile is-child box">
+            <div class="content">
+                
+
+<p>Hugo es un generador de páginas web estaticas, está escrito en lenguaje de programación <strong>Go</strong>, licencia APL 2.0, con un generador de plantillas <strong>Go Templates</strong>.</p>
+
+<h3 id="instalación">Instalación</h3>
+
+<p>Para instalar hugo ejecutamos la siguiente instrucción:</p>
+
+<pre><code class="language-sh">$ sudo apt-get install hugo
+</code></pre>
+
+<h3 id="creación-sitio-web">Creación sitio web</h3>
+
+<pre><code class="language-sh">$ mkdir sitioweb
+$ hugo new site sitioweb
+</code></pre>
+
+<p>El ultimo comando nos creara toda la estructura del sitio web, dentro de la carpeta sitioweb.</p>
+
+<pre><code class="language-sh">$ ls
+archetypes  config.toml  content  data  layouts  static  themes
+</code></pre>
+
+<h3 id="creación-primer-post">Creación primer post</h3>
+
+<p>Agregamos un post para ver el sitio web que acabamos de crear, ejecutamos lo siguiente:</p>
+
+<pre><code class="language-sh">$ hugo new post/instalacion.md
+</code></pre>
+
+<p>Ahora editamos el fichero /content/post/instalacion.md, por defecto viene el siguiente contenido:</p>
+
+<pre><code class="language-sh">+++
+title = &quot;instalacion&quot;
+draft = true
+date = &quot;2018-09-26T17:06:21Z&quot;
+
++++
+</code></pre>
+
+<p>El contenido dentro +++ es la configuración TOML.
+Agregamos texto despues de +++ en formato Markdown, <a href="https://dillinger.io/">Online Markdown Editor</a></p>
+
+<pre><code class="language-sh">+++
+title = &quot;instalacion&quot;
+draft = true
+date = &quot;2018-09-26T17:06:21Z&quot;
+
++++
+
+### Instalación
+Para instalar hugo ejecutamos la siguiente instrucción:
+```sh
+$ sudo apt-get install hugo
+```
+</code></pre>
+
+<h3 id="agregar-un-tema">Agregar un tema</h3>
+
+<p>Hugo tiene una muy robusta y versátil librería de temas pues usa la librería html/template de Go.
+Puedes descargar una plantilla pinchando <a href="https://themes.gohugo.io/">aqui.</a>
+Para agregar un tema ejecutamos lo siguiente en nuestro directorio themes:</p>
+
+<pre><code class="language-sh">$ git clone https://github.com/Tazeg/hugo-blog-jeffprod.git themes/jeffprod
+</code></pre>
+
+<h3 id="fichero-config-toml">Fichero config.toml</h3>
+
+<p>En este fichero esta la configuración principal, podemos definir el título de todos los sitios web, idioma, urls, etc.</p>
+
+<pre><code class="language-sh">title = &quot;Implantacion aplicaciones web&quot;
+baseurl = &quot;&quot;
+languageCode = &quot;en-us&quot;
+theme = &quot;jeffprod&quot;
+[permalinks]
+    post = &quot;/:year/:filename&quot;
+
+[taxonomies]
+    tag = &quot;tags&quot;
+    archive = &quot;archives&quot;
+</code></pre>
+
+<h3 id="desplegar-hugo">Desplegar hugo</h3>
+
+<p>Para ejecutarlo en modo desarrollo ejecutamos lo siguiente:</p>
+
+<pre><code class="language-sh">$ hugo server -D
+</code></pre>
+
+<p>Accedemos a <a href="http://localhost:1313">http://localhost:1313</a>
+Si tenemos hugo en una maquina virtual y no podemos ver nuestra pagina le decimos con el siguiente comando que escuche en la 0.0.0.0</p>
+
+<pre><code class="language-sh">$ hugo server -D --bind=0.0.0.0
+</code></pre>
+
+<p>Para llevarlo a producción y tener el árbol de ficheros ejecutamos lo siguiente:</p>
+
+<pre><code class="language-sh">$ hugo -D
+</code></pre>
+
+<p>Vemos como nos crea una carpeta public.</p>
+
+<pre><code class="language-sh">$ ls
+archetypes  config.toml  content  data  layouts  *public*  static  themes
+</code></pre>
+
+<p>Ejecutamos el siguiente comando para comprobar que nuestra pagina esta funcionando:</p>
+
+<pre><code class="language-sh">hugo server -D --bind=0.0.0.0 -b http://172.22.0.108
+</code></pre>
+
+<p><img src="/img/comp1.png" alt="Sin titulo" /></p>
+
+<h3 id="otros-generadores">Otros generadores</h3>
+
+<table>
+<thead>
+<tr>
+<th>Generadores</th>
+<th>Licencia</th>
+<th>Idioma</th>
+<th>Generador de plantillas</th>
+<th>Página web</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><strong>Jekyll</strong></td>
+<td>MIT</td>
+<td>Ruby</td>
+<td>Liquid</td>
+<td>jekyllrb.com</td>
+</tr>
+
+<tr>
+<td><strong>Pelican</strong></td>
+<td>AGPL</td>
+<td>Python</td>
+<td>Jinja2</td>
+<td>blog.getpelican.com</td>
+</tr>
+
+<tr>
+<td><strong>Middleman</strong></td>
+<td>MIT</td>
+<td>Ruby</td>
+<td>ERB/Tilt</td>
+<td>middlemanapp.com</td>
+</tr>
+
+<tr>
+<td><strong>Expose</strong></td>
+<td>MIT</td>
+<td>Bash</td>
+<td>custom</td>
+<td>github.com/Jack000/Expose</td>
+</tr>
+
+<tr>
+<td><strong>Cactus</strong></td>
+<td>BSD</td>
+<td>Python</td>
+<td>Django</td>
+<td>github.com/eudicots/Cactus</td>
+</tr>
+
+<tr>
+<td><strong>Lektor</strong></td>
+<td>BSD</td>
+<td>Python</td>
+<td>Jinja2</td>
+<td>getlektor.com</td>
+</tr>
+
+<tr>
+<td><strong>Octopress</strong></td>
+<td>MIT</td>
+<td>Ruby</td>
+<td>Liquid</td>
+<td>octopress.org</td>
+</tr>
+
+<tr>
+<td><strong>Hyde</strong></td>
+<td>MIT</td>
+<td>Python</td>
+<td>Jinja2</td>
+<td>hyde.github.io</td>
+</tr>
+</tbody>
+</table>
+
+            </div>
+        </div>
+    </div>
+    <div class="column is-3">
+        <div class="card">
+    <div class="card-content">
+        <h1 class="title is-5">Tags</h1>
+        <div class="tags">
+        
+        </div>          
+    </div>
+</div><br>
+        <div class="card">
+    <div class="card-content">
+        <h1 class="title is-5">Recent posts</h1>
+        
+            <h1><a href="/2018/instalacion">Instalación y configuracion de hugo</a></h1>
+            <time class="has-text-grey-light is-size-7">26 September 2018</time>
+        
+            <h1><a href="/2018/surge">Servicio de despliegue de paginas estáticas Surge</a></h1>
+            <time class="has-text-grey-light is-size-7">1 October 2018</time>
+        
+    </div>
+</div>
+    <br>
+        <div class="card">
+    <div class="card-content">
+        <h1 class="title is-5">Archives</h1>
+        
+            <a href="/archives/2018">2018</a> (2)<br>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+    </div>
+</div>
+
