@@ -6,8 +6,141 @@
     <description>Recent content on Blog de Jesús Arias</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Oct 2018 16:51:30 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 14 Oct 2018 19:53:40 +0000</lastBuildDate>
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Diferencias entre PLSQL y pgPL/SQL</title>
+      <link>/2018/diferenciaspl</link>
+      <pubDate>Sun, 14 Oct 2018 19:53:40 +0000</pubDate>
+      
+      <guid>/2018/diferenciaspl</guid>
+      <description>
+
+&lt;h1 id=&#34;diferencias-entre-plsql-y-pgpl-sql&#34;&gt;Diferencias entre PLSQL y pgPL/SQL.&lt;/h1&gt;
+
+&lt;h2 id=&#34;ejemplo-de-trigger&#34;&gt;Ejemplo de trigger&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Codigo en PLSQL&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-pl&#34;&gt;create or replace trigger ControlEmpleados
+before insert or update on conductores
+for each row
+declare
+    v_nif NUMBER:=0;
+begin
+    select count(nif) into v_nif
+    from empleados
+    where nif in (select nif
+                  from mecanicos
+                  where nif=:new.nif);
+    if v_nif &amp;gt;= 1 then
+        raise_application_error(-20001, &#39;No puede ser conductor si mecánico&#39;);
+    end if;
+end;
+/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Codigo en pgPL/SQL&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-pl&#34;&gt;create or replace function ControlConductores() returns trigger as $ControlConductores$
+declare
+    v_nif int:=0;
+begin
+    select count(nif) into v_nif
+    from empleados
+    where nif in (select nif
+                  from mecanicos
+                  where nif=new.nif);
+    if v_nif &amp;gt;= 1 then
+        RAISE NOTICE &#39;No puede ser conductor si ya es mecanico&#39;;
+    else
+        RETURN NEW;
+    end if;
+end;
+$ControlConductores$ language plpgsql;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-pl&#34;&gt;create trigger ControlEmpleados
+before insert or update on conductores
+for each row execute procedure ControlConductores();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;ejemplo-de-función&#34;&gt;Ejemplo de función&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Codigo en PLSQL&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-pl&#34;&gt;create or replace function ComprobarPotencia (p_matricula autobuses.matricula%type)
+return NUMBER
+is
+    v_matri NUMBER:=0;
+begin
+    select count(matricula) into v_matri
+    from modelos, autobuses
+    where codigo = codigomodelo
+    and potencia = (select max(potencia)
+                    from modelos)
+    and matricula = p_matricula;
+    return v_matri;
+end;
+/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Codigo en pgPL/SQL&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-pl&#34;&gt;create or replace function ComprobarPotencia (p_matricula VARCHAR)
+RETURNS NUMERIC AS $$
+declare
+    v_matri NUMERIC;
+begin
+    select count(matricula) into v_matri
+    from modelos, autobuses
+    where codigo = codigomodelo
+    and potencia = (select max(potencia)
+                    from modelos)
+    and matricula = p_matricula;
+    return v_matri;
+end;
+$$ LANGUAGE plpgsql;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;ejemplo-de-procedimiento&#34;&gt;Ejemplo de procedimiento&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Codigo en PLSQL&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-pl&#34;&gt;create or replace procedure ComprobarNIFres (p_nif personal.nif%type)
+is
+	v_indresponsable NUMBER:=0;
+begin
+	select count(*) into v_indresponsable
+	from responsables
+	where nif=p_nif;
+	if v_indresponsable = 0 then
+		raise_application_error(-20002, &#39;NIF Inexistente: &#39;||p_nif);
+	end if;
+end;
+/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Codigo en pgPL/SQL&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-pl&#34;&gt;create or replace function ComprobarNIFres (p_nif VARCHAR) RETURNS void AS  $ComprobarNIFres$
+declare
+	v_indresponsable INTEGER:=0;
+begin
+	select count(*) into v_indresponsable
+	from responsables
+	where nif=p_nif;
+	if v_indresponsable = 0 then
+		RAISE NOTICE &#39;NIF Inexistente&#39;;
+	else
+	    RETURN NEW;
+	end if;
+end;
+$ComprobarNIFres$ LANGUAGE plpgsql;
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Servicio de despliegue de paginas estáticas Surge</title>

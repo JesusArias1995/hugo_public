@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Blog de Jesús Arias  | Diferencias entre PLSQL y pgPL/SQL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" />
+    <link rel="stylesheet" href="/css/blog.css" />
+</head>
+<body>
+
+    
+    <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">Inicio</a>
+        </div>
+    </nav>
+    
+
+    
+    <section class="hero is-info is-medium">
+        <div class="hero-body" style="background-image: url(/img/bg-blog.jpg);">
+            <div class="container has-text-centered">
+                <br>
+                <h1 class="title is-size-1">
+                    
+                        Diferencias entre PLSQL y pgPL/SQL
+                    
+                </h1>
+                
+            </div>
+        </div>
+    </section>
+
+
+<div class="container">
+    <div class="section">
+    
+
+<div class="columns">
+    <div class="column is-9">
+        <div class="tile is-child box">
+            <div class="content">
+                
+
+<h1 id="diferencias-entre-plsql-y-pgpl-sql">Diferencias entre PLSQL y pgPL/SQL.</h1>
+
+<h2 id="ejemplo-de-trigger">Ejemplo de trigger</h2>
+
+<p><strong><em>Codigo en PLSQL</em></strong></p>
+
+<pre><code class="language-pl">create or replace trigger ControlEmpleados
+before insert or update on conductores
+for each row
+declare
+    v_nif NUMBER:=0;
+begin
+    select count(nif) into v_nif
+    from empleados
+    where nif in (select nif
+                  from mecanicos
+                  where nif=:new.nif);
+    if v_nif &gt;= 1 then
+        raise_application_error(-20001, 'No puede ser conductor si mecánico');
+    end if;
+end;
+/
+</code></pre>
+
+<p><strong>Codigo en pgPL/SQL</strong></p>
+
+<pre><code class="language-pl">create or replace function ControlConductores() returns trigger as $ControlConductores$
+declare
+    v_nif int:=0;
+begin
+    select count(nif) into v_nif
+    from empleados
+    where nif in (select nif
+                  from mecanicos
+                  where nif=new.nif);
+    if v_nif &gt;= 1 then
+        RAISE NOTICE 'No puede ser conductor si ya es mecanico';
+    else
+        RETURN NEW;
+    end if;
+end;
+$ControlConductores$ language plpgsql;
+</code></pre>
+
+<pre><code class="language-pl">create trigger ControlEmpleados
+before insert or update on conductores
+for each row execute procedure ControlConductores();
+</code></pre>
+
+<h2 id="ejemplo-de-función">Ejemplo de función</h2>
+
+<p><strong>Codigo en PLSQL</strong></p>
+
+<pre><code class="language-pl">create or replace function ComprobarPotencia (p_matricula autobuses.matricula%type)
+return NUMBER
+is
+    v_matri NUMBER:=0;
+begin
+    select count(matricula) into v_matri
+    from modelos, autobuses
+    where codigo = codigomodelo
+    and potencia = (select max(potencia)
+                    from modelos)
+    and matricula = p_matricula;
+    return v_matri;
+end;
+/
+</code></pre>
+
+<p><strong>Codigo en pgPL/SQL</strong></p>
+
+<pre><code class="language-pl">create or replace function ComprobarPotencia (p_matricula VARCHAR)
+RETURNS NUMERIC AS $$
+declare
+    v_matri NUMERIC;
+begin
+    select count(matricula) into v_matri
+    from modelos, autobuses
+    where codigo = codigomodelo
+    and potencia = (select max(potencia)
+                    from modelos)
+    and matricula = p_matricula;
+    return v_matri;
+end;
+$$ LANGUAGE plpgsql;
+</code></pre>
+
+<h2 id="ejemplo-de-procedimiento">Ejemplo de procedimiento</h2>
+
+<p><strong>Codigo en PLSQL</strong></p>
+
+<pre><code class="language-pl">create or replace procedure ComprobarNIFres (p_nif personal.nif%type)
+is
+	v_indresponsable NUMBER:=0;
+begin
+	select count(*) into v_indresponsable
+	from responsables
+	where nif=p_nif;
+	if v_indresponsable = 0 then
+		raise_application_error(-20002, 'NIF Inexistente: '||p_nif);
+	end if;
+end;
+/
+</code></pre>
+
+<p><strong>Codigo en pgPL/SQL</strong></p>
+
+<pre><code class="language-pl">create or replace function ComprobarNIFres (p_nif VARCHAR) RETURNS void AS  $ComprobarNIFres$
+declare
+	v_indresponsable INTEGER:=0;
+begin
+	select count(*) into v_indresponsable
+	from responsables
+	where nif=p_nif;
+	if v_indresponsable = 0 then
+		RAISE NOTICE 'NIF Inexistente';
+	else
+	    RETURN NEW;
+	end if;
+end;
+$ComprobarNIFres$ LANGUAGE plpgsql;
+</code></pre>
+
+            </div>
+        </div>
+    </div>
+    <div class="column is-3">
+        <div class="card">
+    <div class="card-content">
+        <h1 class="title is-5">Tags</h1>
+        <div class="tags">
+        
+        </div>          
+    </div>
+</div><br>
+        <div class="card">
+    <div class="card-content">
+        <h1 class="title is-5">Recent posts</h1>
+        
+            <h1><a href="/2018/instalacion">Hugo</a></h1>
+            <time class="has-text-grey-light is-size-7">26 September 2018</time>
+        
+            <h1><a href="/2018/surge">Servicio de despliegue de paginas estáticas Surge</a></h1>
+            <time class="has-text-grey-light is-size-7">1 October 2018</time>
+        
+            <h1><a href="/2018/diferenciaspl">Diferencias entre PLSQL y pgPL/SQL</a></h1>
+            <time class="has-text-grey-light is-size-7">14 October 2018</time>
+        
+    </div>
+</div>
+    <br>
+        <div class="card">
+    <div class="card-content">
+        <h1 class="title is-5">Archives</h1>
+        
+            <a href="/archives/2018">2018</a> (3)<br>
+        
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+    </div>
+</div>
+
